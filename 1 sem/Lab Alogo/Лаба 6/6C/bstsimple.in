@@ -1,0 +1,6 @@
+delete 2
+insert 2
+delete 2
+insert 5
+prev 5
+next -3

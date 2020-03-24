@@ -1,0 +1,6 @@
+delete 4
+insert 4
+exists 4
+insert 1000004
+insert 10
+insert 100

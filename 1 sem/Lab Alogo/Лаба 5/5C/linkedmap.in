@@ -1,0 +1,9 @@
+delete asda
+put doka 2
+get doka
+prev doka
+put doka 3
+get doka
+delete doka
+next doka
+delete asd
