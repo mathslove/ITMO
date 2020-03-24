@@ -4,7 +4,7 @@ First semester worth of laboratory practices on algorithms and data structures.
 All tasks tested in **PCMS2** 
 (from around lab 4 you can also see test files in cmake-build-debug) folders for eack tasks)
 
-## [Тест для задачи на экзамене(основная прога не у меня)](../Экзамен/Алго)
+## [Тест для задачи на экзамене(основная прога не у меня)](https://github.com/mathslove/ITMO/tree/master/1-sem/Lab%20Alogo/%D0%AD%D0%BA%D0%B7%D0%B0%D0%BC%D0%B5%D0%BD/%D0%90%D0%BB%D0%B3%D0%BE)
 
 ## [Lab 1](http://neerc.ifmo.ru/teaching/disalgo/problems/problems1.pdf)
 1. [a+b](https://github.com/mathslove/ITMO/tree/master/1-sem/Lab%20Alogo/%D0%9B%D0%B0%D0%B1%D0%B0%201/1.%20a%2Bb)
