@@ -14,6 +14,6 @@ First semester worth of programming laboratory practice tasks while learning C l
 10. [Функции(Functions)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/3.%20Work3/app10.c)
 11. [Использование заголовочных файлов(Using Header Files)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/3.%20Work3/app11.c)
 12. [Операции ввода-вывода(Input/Output Operations)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/3.%20Work3/app12.c)
-13. [Редактор метаинформации mp3-файла(Mp3 Tag Editor)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/4.%20Work4/app13.c) (*[README](https://github.com/nazzrrg/Programming-in-C-Language-I/blob/master/Programming%20in%20C/lab13/README.md)*)
+13. [Редактор метаинформации mp3-файла(Mp3 Tag Editor)(не сделанно)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/4.%20Work4/app13.c) (*[README](https://github.com/nazzrrg/Programming-in-C-Language-I/blob/master/Programming%20in%20C/lab13/README.md)*)
 14. [Игра жизнь(Game of Life)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/5.%20Work%205/app14.c) (*[README](https://github.com/nazzrrg/Programming-in-C-Language-I/blob/master/Programming%20in%20C/lab14/README.md)*)
 15. [Архиватор(Archiver)](https://github.com/mathslove/ITMO/blob/master/1-sem/Prog%20Practice/6.%20Work%206/app15.c) (*[README](https://github.com/nazzrrg/Programming-in-C-Language-I/blob/master/Programming%20in%20C/lab15/README.md)*)
