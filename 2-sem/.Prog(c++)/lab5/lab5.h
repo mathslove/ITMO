@@ -5,7 +5,7 @@
 #ifndef PROGA_LAB5_H
 #define PROGA_LAB5_H
 
-#include <exception>
+#include <list>
 #include <iostream>
 #include "lab5_exceptions.h"
 
@@ -13,22 +13,22 @@
 template <typename T>
 void my_swap ( T&, T&);
 
+
 //Здание 2
-
-
 template <int N, typename T>
-class Queue{
-private:
-        T queue[N];
-        size_t frnt = 0, rear = 0 ;
+class Queue
+{
 public:
 
-    void push(T);
+    void push(const T&);
+    T pop();
 
-    void pop();
+private:
+    std::list<T> myList;
+    unsigned size = N;
+};
 
-    };
+#include "lab5_1.h"
 
-#include "lab5.tpp"
 
 #endif //PROGA_LAB5_H

@@ -31,7 +31,8 @@ int main(){
 
     Queue<3, int> q;
 
-    q.pop();
+    try{
+//    q.pop();
 
     q.push(1);
     std::cout<<"push"<<std::endl;
@@ -40,6 +41,14 @@ int main(){
     q.push(3);
     std::cout<<"push"<<std::endl;
 
-    q.push(4);
+//    q.push(4);
+    std::cout<<q.pop()<<std::endl;
+    }
+    catch (QueueEmpty& e){
+        std::cerr<<e.what()<<std::endl;
+    }
+    catch (QueueOut& e){
+        std::cerr<<e.what()<<std::endl;
+    }
     return 0;
 }
