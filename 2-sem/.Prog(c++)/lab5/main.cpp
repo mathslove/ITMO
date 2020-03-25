@@ -20,7 +20,6 @@
     |   элементов типа T   |                           |элемента из пустой очереди.  |
  */
 
-#include <iostream>
 #include "lab5.h"
 
 int main(){
@@ -30,15 +29,16 @@ int main(){
     my_swap(a,b);
     std::cout<<"a = "<<a<<" b = "<<b<<std::endl;
 
-
-
     Queue<3, int> q;
 
     q.pop();
 
     q.push(1);
+    std::cout<<"push"<<std::endl;
     q.push(2);
+    std::cout<<"push"<<std::endl;
     q.push(3);
+    std::cout<<"push"<<std::endl;
 
     q.push(4);
     return 0;
