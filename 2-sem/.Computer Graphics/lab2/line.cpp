@@ -59,7 +59,7 @@ void pnm::DrawLine(float& x0, float& y0, float& x1, float& y1,
         y += gradient;
     }
 
-    for (int xT = (int)((double)ipart(x0)-thickness / 2); xT <= (int)round(x0);xT++){
+    for (int xT = (int)(round(x0)-thickness / 2); xT <= (int)round(x0);xT++){
         y = y0+gradient*((double)xT-x0);
         for (int yT = y - (thickness-1)/2; yT<=y - (thickness-1)/2+thickness; yT++)
             plot(steep, xT, yT, 1 - std::min(1.0,(thickness + 1.0) / 2.0 - sqrt(pow(x0-xT,2)+pow(y0-yT,2)) ), brightness, gamma);
