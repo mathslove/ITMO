@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/mmas6/CLionProjects/lab3/image.cpp
+logic.h
+C:/Users/mmas6/CLionProjects/lab3/logic.h
+
+C:/Users/mmas6/CLionProjects/lab3/logic.h
+vector
+-
+fstream
+-
+iostream
+-
+cmath
+-
+ctime
+-
+cstdlib
+-
+
