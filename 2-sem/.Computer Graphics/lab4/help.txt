@@ -1,0 +1,10 @@
+-i 1 1.ppm -o 3 2.ppm -f RGB -t HSL
+-i 3 2.ppm -o 1 3.ppm -t RGB -f HSL
+
+RGB
+HSL
+HSV
+YCbCr601
+YCbCr709
+YCoCg
+CMY
