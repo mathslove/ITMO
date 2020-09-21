@@ -3,7 +3,6 @@ using System.IO;
 using lab1.Parser;
 using lab1.Parser.Exceptions;
 
-/*using lab1.Parser;*/
 
 namespace lab1
 {
