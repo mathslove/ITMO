@@ -128,7 +128,7 @@ namespace lab1.Parser
         {
             str = str.Trim();
             
-            var index = str.IndexOfAny(new[] {';','#'});
+            var index = str.IndexOfAny(new[] {';'});
             if (index == -1)
                 index = str.Length;
             
