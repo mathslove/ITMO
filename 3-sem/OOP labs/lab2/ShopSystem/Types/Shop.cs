@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using lab2.ShopSystem.Containers;
 using lab2.ShopSystem.Exceptions;
 using lab2.ShopSystem.Interface;
-using lab2.ShopSystem.Types;
 
-namespace lab2.ShopSystem
+namespace lab2.ShopSystem.Types
 {
     public class Shop:IShop
     {

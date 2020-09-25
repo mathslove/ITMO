@@ -1,6 +1,6 @@
 namespace lab2.ShopSystem.Interface
 {
-    public interface IShop:IEntity
+    public interface IShop
     {
         public string Address { get;  }
         public uint Id { get; }

@@ -8,13 +8,9 @@ namespace lab2.ShopSystem.Types
         public uint Id { get; }
         public string Name { get; }
 
-        private static IdGenerator IG = 
-            new IdGenerator();
-
-        public Product(string name)
+        public Product(uint id, string name)
         {
-            /*Id = (uint)this.GetHashCode();*/
-            Id = IG.GenerateUniqId();
+            Id = id;
             Name = name;
         }
     }
