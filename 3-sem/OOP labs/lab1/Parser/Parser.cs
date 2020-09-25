@@ -7,6 +7,7 @@ using lab1.Parser.Exceptions;
 
 namespace lab1.Parser
 {
+    //TODO: Сдать лабу
     public class IniParser
     {
         class Data
@@ -72,6 +73,7 @@ namespace lab1.Parser
             if (!File.Exists(path))
                 throw new IniParserFileException("No such file in give path!");
             
+            // Работа с файлом
             using (FileStream fsi = new FileStream(path, FileMode.Open))
             {
                 using (StreamReader sri = new StreamReader(fsi))
@@ -124,6 +126,7 @@ namespace lab1.Parser
             }
         }
         
+        // Helpers
         private string RemoveComments(string str)
         {
             str = str.Trim();
