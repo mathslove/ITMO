@@ -1,15 +1,20 @@
+using lab2.ShopSystem.Interface;
+using lab2.ShopSystem.Utils;
+
 namespace lab2.ShopSystem.Types
 {
-    public class Product
+    public class Product:IProduct
     {
+        public uint Id { get; }
+        public string Name { get; }
 
-        
-        public int Id;
-        public string Name;
+        private static IdGenerator IG = 
+            new IdGenerator();
 
         public Product(string name)
         {
-            Id = this.GetHashCode();
+            /*Id = (uint)this.GetHashCode();*/
+            Id = IG.GenerateUniqId();
             Name = name;
         }
     }

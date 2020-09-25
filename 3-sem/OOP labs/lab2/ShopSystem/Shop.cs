@@ -1,23 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
+using lab2.ShopSystem.Containers;
 using lab2.ShopSystem.Exceptions;
+using lab2.ShopSystem.Interface;
 using lab2.ShopSystem.Types;
 
 namespace lab2.ShopSystem
 {
-    public class Shop
+    public class Shop:IShop
     {
-
-        public int Id;
-        public string Name { get; }
         public string Address { get;  }
+        public uint Id { get; }
+        public string Name { get; }
         private Dictionary<Product, ProductProp> Storage;
 
-        public Shop(string name, string address)
+        public Shop(uint id, string name, string address)
         {
-            Id = this.GetHashCode();
+            Id = id;
             Name = name;
             Address = address;
             Storage = new Dictionary<Product, ProductProp>();
@@ -188,6 +187,7 @@ namespace lab2.ShopSystem
 
             return sum;
         }
+        
         
     }
 }
