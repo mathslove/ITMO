@@ -33,20 +33,20 @@ namespace lab2.ShopSystem
             return _shopsList.Count - 1;
         }
 
-        public int GetShopByIndex(uint shopId)
+        public string GetShopByID(uint shopId)
         {
             try
             {
                 foreach (var shop in _shopsList)
                 {
-                    if (shop.Id == shopId) return _shopsList.IndexOf(shop);
+                    if (shop.Id == shopId) return "This is the shop with given ID:\n"
+                                                  +$"{shop.Id} {shop.Name} {shop.Address}";
                 }
                 throw new ShopSysException($"No shop with such ID {shopId} was found");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return e.Message;
             }
         }
 
@@ -74,15 +74,15 @@ namespace lab2.ShopSystem
             }
         }
 
-        public void ShopBuyBatch(int shopIndex, int batchIndex)
+        public string ShopBuyBatch(int shopIndex, int batchIndex)
         {
             try
             {
-                _shopsList[shopIndex].BuyBatch(_batchForBuyingList[batchIndex]);
+                return "This is the money you spent for given cart:\n"+_shopsList[shopIndex].BuyBatch(_batchForBuyingList[batchIndex]).ToString();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                return e.Message;
             }
         }
         
@@ -130,64 +130,120 @@ namespace lab2.ShopSystem
             }
         }
         
-        public int GetShopWithCheapestProduct(Product product)
+        public string GetShopWithCheapestProduct(int productIndex)
         {
-            if (_shopsList.Count == 0)
+            try
             {
-                throw new ShopSysLogicalException("ShopsList list can't be empty");
-            }
-            
-            var min = uint.MaxValue;
-            Shop resShop = null;
-            
-            foreach (var shop in _shopsList)
-            {
-                if (shop[product].Price >= min) continue;
-                min = shop[product].Price;
-                resShop = shop;
-            }
+                var product = _productsList[productIndex];
+                if (_shopsList.Count == 0)
+                {
+                    throw new ShopSysLogicalException("ShopsList list can't be empty");
+                }
 
-            if (resShop != null)
-                return _shopsList.IndexOf(resShop);
-            else
-                throw new ShopSysException("FindShopWithCheapestProduct: No shop was found");
+                var min = uint.MaxValue;
+                Shop resShop = null;
+
+                foreach (var shop in _shopsList)
+                {
+                    try
+                    {
+                        if (shop[product].Price <= min)
+                        {
+                            min = shop[product].Price;
+                            resShop = shop;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+
+                if (resShop != null)
+                    return $"This shop provides lowest price for given product{product.Name}\n" +
+                           ""+$"{resShop.Id} {resShop.Name} {resShop.Address}";
+                else
+                    throw new ShopSysException("GetShopWithCheapestProduct: No shop was found");
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
 
-        public int GetShopWithLowestCostForBatch(BatchForBuying batch)
+        public string GetShopWithLowestCostForBatch(int batchIndex)
         {
-            if (batch == null || batch.GetBatchList().Count == 0)
+            try
             {
-                throw new ShopSysLogicalException("Batch can't be empty");
-            }
-
-            if (_shopsList.Count == 0)
-            {
-                throw new ShopSysLogicalException("ShopsList list can't be empty");
-            }
-            
-            Shop resShop = null;
-            var min = uint.MaxValue;
-
-            foreach (var shop in _shopsList)
-            {
-                try
+                var batch = _batchForBuyingList[batchIndex];
+                if (batch == null || batch.GetBatchList().Count == 0)
                 {
-                    var cur = shop.CalcBatchCost(batch);
-                    if (cur >= min) continue;
-                    min = cur;
-                    resShop = shop;
+                    throw new ShopSysLogicalException("Batch can't be empty");
                 }
-                catch (Exception)
+
+                if (_shopsList.Count == 0)
                 {
-                    // ignored
+                    throw new ShopSysLogicalException("ShopsList list can't be empty");
+                }
+
+                Shop resShop = null;
+                var min = uint.MaxValue;
+
+                foreach (var shop in _shopsList)
+                {
+                    try
+                    {
+                        var cur = shop.CalcBatchCost(batch);
+                        if (cur >= min) continue;
+                        min = cur;
+                        resShop = shop;
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+
+                if (resShop != null)
+                    return $"This is the shop with lowest cost for given cart\n" +
+                           $"{resShop.Id} {resShop.Name} {resShop.Address}";
+                else
+                    throw new ShopSysException("GetShopWithLowestCostForBatch: No shop was found");
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
+        }
+
+        public string GetProductsAmountForBudgetInShop(int shopIndex, uint budget)
+        {
+            try
+            {
+                var res = _shopsList[shopIndex].GetProductsAmountForBudget(budget);
+                var resS = string.Empty;
+                foreach (var (product, amount) in res)
+                {
+                    resS += $"{product.Name} (id: {product.Id}) in amount of {amount}\n";
+                }
+
+                if (resS != string.Empty)
+                {
+                    return $"That are products that you are able to buy for {budget} in our shop {_shopsList[shopIndex].Name}:\n"
+                           +resS;
+                }
+                else
+                {
+                    return
+                        $"You can buy nothing in this shop {_shopsList[shopIndex].Name}({_shopsList[shopIndex].Id}) for such budget {budget}\n";
                 }
             }
-
-            if (resShop != null)
-                return _shopsList.IndexOf(resShop);
-            else
-                throw new ShopSysException("GetShopWithLowestCostForBatch: No shop was found");
+            catch(Exception e)
+            {
+                return "GetProductsAmountForBudgetInShop:\n"
+                    +e.Message;
+            }
         }
 
     }
