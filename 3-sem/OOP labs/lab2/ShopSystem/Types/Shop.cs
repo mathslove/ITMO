@@ -134,11 +134,6 @@ namespace lab2.ShopSystem.Types
                 throw;
             }
         }
-        
-        public Dictionary<Product,ProductProp> GetAll()
-        {
-            return Storage;
-        }
 
         public Dictionary<Product, uint> GetProductsAmountForBudget(uint budget)
         {
