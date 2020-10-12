@@ -1,9 +1,9 @@
-namespace lab2.ShopSystem.Interface
+namespace lab2_pro.ShopSystem.Interface
 {
-    public interface IShop
+    public abstract class IShop
     {
-        public string Address { get;  }
-        public uint Id { get; }
-        public string Name { get; }
+        private string Address;
+        private uint Id;
+        private string Name;
     }
 }

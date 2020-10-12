@@ -1,72 +1,67 @@
 ﻿using System;
-using lab2.ShopSystem;
+using lab2_pro.ShopSystem.Entities;
 
-namespace lab2
+namespace lab2_pro
 {
     class Program
-    {
+    { 
         static void Main(string[] args)
         {
-            // Самый user-friendly интерфейс, как  просили
+            var rep = new Repository();
             
+            var shop1 = new Shop("Лента", "Колотушкино");
+            rep.AddShop(shop1);
             
-            // Создаём 3 магаза и 10 продуктов, всё через мендежр!!! Никаких инстантсов классов кроме менеджера!!!
-            var smanager = new ShopSystemManager();
-            var s1 = smanager.CreateShop("Sample1", "USA");
-            var s2 = smanager.CreateShop("Sample2", "Mexico");
-            var s3 = smanager.CreateShop("Sample3", "USA");
- 
-            var products = new int[10];
-            for (int i = 0; i < products.Length; i++)
-            {
-                products[i] = smanager.CreateProduct($"Product Sample{i}");
-            }
- 
-            // Добовляем товары в патрию доставки и пушим в магазин
-            var batch1 = smanager.CreateBatchForConsuming();
- 
-            for (int i = 0; i < 5; i++)
-                smanager.BatchForConsumingAdd(batch1,products[i], (uint) (5 + i), 10);
- 
-            smanager.ShopConsumeBatch(s1,batch1);
- 
-            var batch2 = smanager.CreateBatchForConsuming();            
-            for (int i = 0; i < 5; i++)
-                smanager.BatchForConsumingAdd(batch2,products[i+5], (uint) (5 + i), 10);
- 
-            smanager.ShopConsumeBatch(s2,batch2); 
+            var shop2 = new Shop("5-очка", "Пушкино");
+            rep.AddShop(shop2);
             
-            var batch3 = smanager.CreateBatchForConsuming();
+            var shop3 = new Shop("Эрос", "Небеса");
+            rep.AddShop(shop3);
+
+            var pr = new Product[10];
             for (int i = 0; i < 10; i++)
-                smanager.BatchForConsumingAdd(batch3,products[i], (uint) (5 + i), 10);
- 
-            smanager.ShopConsumeBatch(s3,batch3);
-            
-            // Найдём магазин где можно купить хлеб по дешёвке
-            Console.WriteLine(smanager.GetShopWithCheapestProduct(products[0]));
-            Console.WriteLine();
+            {
+                pr[i] = new Product($"{i}-ый продукт");
+            }
 
-
-            // Найдём что мы можем купить в данном магазине на 100 рубликов
-            Console.WriteLine(smanager.GetProductsAmountForBudgetInShop(s1, 100));
-            Console.WriteLine();
-
-            // Купим партию товаров в магазине
-            var cart = smanager.CreateBatchForBuying();
-            smanager.BatchForBuyingAdd(cart, products[1], 2);
-            smanager.BatchForBuyingAdd(cart, products[4], 2);
+            shop1.AddProduct(10, 228, pr[0]);
+            shop1.AddProduct(10, 50, pr[1]);
             
-            Console.WriteLine(smanager.ShopBuyBatch(s1,cart));
-            Console.WriteLine();
+            shop2.AddProduct(10, 322, pr[0]);
+            shop2.AddProduct(5, 1488, pr[1]);
+            shop2.AddProduct(3, 1812, pr[2]);
             
-            // Найдём в каком магазине партия товаров имеет наименьшую сумму
+            shop3.AddProduct(10, 322, pr[0]);
+            shop3.AddProduct(5, 1488, pr[1]);
+            shop3.AddProduct(3, 1812, pr[2]);
+            shop3.AddProduct(100, 1945, pr[9]);
+            
+            var man = new ShopsManager();
+            
+            var res = man.GetShopWithCheapestProduct(pr[0], rep);
+            Console.WriteLine(res.GetName());
 
-            Console.WriteLine(smanager.GetShopWithLowestCostForBatch(cart));
-            Console.WriteLine();
-            
-            //
-            //На этом всё, если поймал исключение, значит вкинул не то или не туда, будь осторожен
-            //
+            var resl = shop2.GetProductsForBudget(100);
+            foreach (var (prod, amount) in resl)
+            {
+                Console.WriteLine(prod.GetName());
+            }
+
+            var cart = new Cart();
+            cart.Add(2, pr[0]);
+            cart.Add(4, pr[1]);
+
+            if (shop2.BuyCart(cart))
+            {
+                Console.WriteLine("U successfully bought cart");
+            }
+            else
+            {
+                Console.WriteLine("U unsuccessfully bought cart");
+            }
+
+            var res1 = man.GetShopWithCheapestCart(cart, rep);
+            Console.WriteLine(res1.GetName());
         }
     }
 }

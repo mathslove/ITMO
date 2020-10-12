@@ -1,4 +1,4 @@
-namespace lab2.ShopSystem.Exceptions
+namespace lab2_pro.ShopSystem.Exceptions
 {
     public class ShopSysException: System.Exception
     {
