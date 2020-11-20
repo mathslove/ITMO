@@ -10,7 +10,7 @@ namespace lab4
         {
             ////////////// Кейс №1
             //Создали Бэкап
-            var backup1 = new Backup();
+            var backup1 = new Backup(FilterInteraction.AND);
             
             //Добавили два файла
             try
@@ -44,7 +44,7 @@ namespace lab4
             ////////////// Кейс №2
             // Ёмаё где взять файлы по 100м 
             // Сделаю сорт до 1к байт
-            var backup2 = new Backup();
+            var backup2 = new Backup(FilterInteraction.OR);
             
             // добавляем
             try

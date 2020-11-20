@@ -12,17 +12,18 @@ namespace lab4.BackupSystem.Entities.FilterAlgo
             FilterDate = date;
         }
         
-        public List<RestorePoint> Filter(Backup backup,List<RestorePoint> points)
+        public int Filter(Backup backup,List<RestorePoint> points)
         {
+            int count = 0;
             for (int i = 0; i < points.Count; i++)
             {
                 if (points[i].GetCreationTime()< FilterDate)
                 {
-                    backup.DeleteRestorePointByIndex(i);
+                    count++;
                 }
             }
 
-            return points;
+            return count++;
         }
     }
 }

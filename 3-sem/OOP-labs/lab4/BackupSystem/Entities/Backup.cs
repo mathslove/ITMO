@@ -12,21 +12,34 @@ namespace lab4.BackupSystem.Entities
     {
         public int Id { get; }
         DateTime CreationTime;
-        private int BackupSze;
+        private long BackupSize;
         private List<RestorePoint> Points;
         
         private List<string> Files;
         private StorageAlgo _storageAlgo;
+        private FilterInteraction FiltersLogic;
         private List<IFilterAlgo> Filters;
         
-        public Backup()
+        public Backup(FilterInteraction operation)
         {
             Id = GetHashCode();
             CreationTime = DateTime.Now;
             Points = new List<RestorePoint>();
             _storageAlgo = new GeneralStorageAlgo();
+            FiltersLogic = operation;
             Files = new List<string>();
             Filters = new List<IFilterAlgo>();
+        }
+        
+        public long GetSize()
+        {
+            BackupSize = 0;
+            foreach (var point in Points)
+            {
+                BackupSize += point.GetSize();
+            }
+
+            return BackupSize;
         }
         
         public void AddFilePath(string filepath)
@@ -65,11 +78,28 @@ namespace lab4.BackupSystem.Entities
             Filters.Add(filter);
         }
 
+        public void ClearFilters()
+        {
+            Filters.Clear();
+        }
+
         public void Update()
         {
+            int count = 0;
             foreach (var filter in Filters)
             {
-                Points = filter.Filter(this, Points);
+                if (FilterInteraction.AND == FiltersLogic)
+                {
+                    count = Math.Max(count, filter.Filter(this, Points));
+                }else if (FilterInteraction.OR == FiltersLogic)
+                {
+                    count = Math.Min(count, filter.Filter(this, Points));
+                }
+            }
+
+            for (int i = 0; i < Points.Count; i++)
+            {
+                DeleteRestorePointByIndex(i);
             }
         }
         

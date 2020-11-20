@@ -10,14 +10,9 @@ namespace lab4.BackupSystem.Entities.FilterAlgo
             countLimit = c;
         }
 
-        public List<RestorePoint> Filter(Backup backup, List<RestorePoint> points)
+        public int Filter(Backup backup, List<RestorePoint> points)
         {
-            for (int i = 0; i < points.Count-countLimit; i++)
-            {
-                backup.DeleteRestorePointByIndex(i);
-            }
-
-            return points;
+            return points.Count - countLimit;
         }
     }
 }

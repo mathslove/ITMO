@@ -9,17 +9,21 @@ namespace lab4.BackupSystem.Entities.FilterAlgo
         {
             SizeLimit = sizeLimit;
         }
-        public List<RestorePoint> Filter(Backup backup, List<RestorePoint> points)
+        public int Filter(Backup backup, List<RestorePoint> points)
         {
-            for (int i = 0; i < points.Count; i++)
+            int count = 0;
+            long sumS = 0;
+            for (int i = points.Count-1; i >=0; i--)
             {
-                if (points[i].GetSize()<SizeLimit)
+                sumS += points[i].GetSize();
+                count++;
+                if (sumS >= backup.GetSize())
                 {
-                    backup.DeleteRestorePointByIndex(i);
+                    break;
                 }
             }
 
-            return points;
+            return points.Count - count;
         }
     }
 }
