@@ -14,6 +14,7 @@ namespace lab5.BankSystem.Entites
             public AccountId Account { get; }
             public ClientId Client2 { get; }
             public AccountId Account2 { get; }
+            public Bank Bank { get; }
             public TransactionId Id { get; } 
             
             public Transaction(Bank.OperationTYPE operation, ClientId client, AccountId account, double amount)
@@ -26,7 +27,7 @@ namespace lab5.BankSystem.Entites
                 this.Amount = amount;
             }
             
-            public Transaction(Bank.OperationTYPE operation, ClientId client1, AccountId account1,ClientId client2, AccountId account2, double amount)
+            public Transaction(Bank.OperationTYPE operation, ClientId client1, AccountId account1,ClientId client2, AccountId account2, Bank bank, double amount)
             {
                 Id = ClientId.NewGuid();
                 
@@ -34,6 +35,7 @@ namespace lab5.BankSystem.Entites
                 this.Account = account1;
                 this.Client2 = client2;
                 this.Account2 = account2;
+                this.Bank = bank;
                 
                 this.Operation = operation;
                 this.Amount = amount;

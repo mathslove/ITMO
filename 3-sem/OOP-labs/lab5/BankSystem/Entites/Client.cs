@@ -37,12 +37,6 @@ namespace lab5.BankSystem.Entites
             _id_card = id_card;
         }
 
-
-        public bool IsSuspicious()
-        {
-            return _address != null || _id_card != null;
-        }
-
         public ClientId GetId()
         {
             return _id;

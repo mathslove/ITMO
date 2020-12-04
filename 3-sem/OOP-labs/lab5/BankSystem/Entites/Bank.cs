@@ -50,33 +50,28 @@ namespace lab5.BankSystem.Entites
 
         public ClientId AddClient(Client client)
         {
-            if (!_guard.VerifyClient(client.GetId()))
-            {
-                _clients.Add(client.GetId(), client);
-            }
-            throw new BankSysException("Such client already exists in this bank");
+            _guard.UniqEnsureClient(client.GetId());
+            
+            _clients.Add(client.GetId(), client);
+            _dependencies.Add(client.GetId(), new List<Guid>());
+            return client.GetId();
         }
 
         public AccountId CreateDebitAccount(ClientId client)
         {
-            if (!_guard.VerifyClient(client))
-            {
-                throw new BankSysException("No such client");
-            }
+            _guard.EnsureClient(client);
             
             var account = new DebitAccount(_policy.DebitPolicy);
             _accounts.Add(account.GetId(), account);
+            
             _dependencies[client].Add(account.GetId());
             return account.GetId();
         }
         
         public AccountId CreateDepositAccount(ClientId client,double balance, int days)
         {
-            if (!_guard.VerifyClient(client))
-            {
-                throw new BankSysException("No such client");
-            }
-            
+            _guard.EnsureClient(client);
+
             var account = new DepositAccount(_policy.DepositPolicy,balance,days);
             _accounts.Add(account.GetId(), account);
             _dependencies[client].Add(account.GetId());
@@ -85,11 +80,8 @@ namespace lab5.BankSystem.Entites
         
         public AccountId CreateCreditAccount(ClientId client, double limit)
         {
-            if (!_guard.VerifyClient(client))
-            {
-                throw new BankSysException("No such client");
-            }
-            
+            _guard.EnsureClient(client);
+
             var account = new CreditAccount(_policy.CreditPolicy, limit);
             _accounts.Add(account.GetId(), account);
             _dependencies[client].Add(account.GetId());
@@ -98,12 +90,10 @@ namespace lab5.BankSystem.Entites
 
         public TransactionId CashIn(ClientId client, AccountId account, double amount)
         {
-            if(_guard.VerifyClient(client))
-                throw new BankSysException("Client wasn't verified in the bank");
-            if (_guard.VerifyAccount(client, account))
-                throw new BankSysException("Account wasn't verified in the bank");
+            _guard.EnsureClient(client);
+            _guard.EnsureAccount(client, account);
 
-            _guard.VerifyOperation(client, OperationTYPE.CASH_IN, amount);
+            _guard.EnsureOperation(client, OperationTYPE.CASH_IN, amount);
             try
             {
                 _accounts[account].CashIn(amount);
@@ -120,12 +110,10 @@ namespace lab5.BankSystem.Entites
 
         public TransactionId CashOut(ClientId client, AccountId account, double amount)
         {
-            if(_guard.VerifyClient(client))
-                throw new BankSysException("Client wasn't verified in the bank");
-            if (_guard.VerifyAccount(client, account))
-                throw new BankSysException("Account wasn't verified in the bank");
+            _guard.EnsureClient(client);
+            _guard.EnsureAccount(client, account);
             
-            _guard.VerifyOperation(client, OperationTYPE.CASH_OUT, amount);
+            _guard.EnsureOperation(client, OperationTYPE.CASH_OUT, amount);
             try
             {
                 _accounts[account].CashOut(amount);
@@ -147,16 +135,14 @@ namespace lab5.BankSystem.Entites
         {
             bank ??= this;
             
-            if(_guard.VerifyClient(client1))
-                throw new BankSysException("Client wasn't verified in the bank");
-            if (_guard.VerifyAccount(client1, account1))
-                throw new BankSysException("Account wasn't verified in the bank");
+            _guard.EnsureClient(client1);
+            _guard.EnsureAccount(client1, account1);
             
-            if(bank._guard.VerifyClient(client2))
-                throw new BankSysException("Client wasn't verified in the bank");
-            if (bank._guard.VerifyAccount(client2, account2))
-                throw new BankSysException("Account wasn't verified in the bank");
+            bank._guard.EnsureClient(client2);
+            bank._guard.EnsureAccount(client2, account2);
 
+            _guard.EnsureOperation(client1, OperationTYPE.TRANSFER, amount);
+            
             var IsCashedOut=false;
             try
             {
@@ -173,7 +159,7 @@ namespace lab5.BankSystem.Entites
                 throw new BankSysException("Can't transfer money to another bank");
             }
             
-            var tr = new Transaction(OperationTYPE.TRANSFER,client1,account1,client2,account2,amount);
+            var tr = new Transaction(OperationTYPE.TRANSFER,client1,account1,client2,account2,bank,amount);
             _transactions.Add(tr.Id,tr);
             return tr.Id;
             
@@ -181,10 +167,7 @@ namespace lab5.BankSystem.Entites
 
         public void CancelOperation(TransactionId transaction)
         {
-            if (_guard.VerifyTransaction(transaction))
-            {
-                throw new BankSysException("Such transaction ia absent in the bank");
-            }
+            _guard.EnsureTransaction(transaction);
 
             var tr = _transactions[transaction];
             switch (tr.Operation)
@@ -197,31 +180,31 @@ namespace lab5.BankSystem.Entites
                     break;
                 case OperationTYPE.TRANSFER:
                     CashIn(tr.Client,tr.Account,tr.Amount);
-                    CashOut(tr.Client2, tr.Account2, tr.Amount);
+                    tr.Bank.CashOut(tr.Client2, tr.Account2, tr.Amount);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        public void CalcDay()
-        {
-            var month_end = _innerTime.Day==DateTime.DaysInMonth(_innerTime.Year, _innerTime.Month);
-            foreach (var account in _accounts)
-            {
-                account.Value.CalcDay();
-                if (month_end)
-                {
-                    account.Value.CalcPeriod();
-                }
-            }
-        }
 
         public void MoveInTime(int days)
         {
-            for (var i = 0; i < days; i++)
+            var resDate = _innerTime.AddDays(days);
+            
+            while (_innerTime<resDate)
             {
-                CalcDay();
+                var month_end = _innerTime.Day==DateTime.DaysInMonth(_innerTime.Year, _innerTime.Month);
+                
+                foreach (var account in _accounts)
+                {
+                    account.Value.CalcDay();
+                    if (month_end)
+                    {
+                        account.Value.CalcPeriod();
+                    }
+                }
+                _innerTime = _innerTime.AddDays(1);
             }
         }
         
