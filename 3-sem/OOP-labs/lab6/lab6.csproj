@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net472</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="ReportSystem\BLL\DTO" />
+      <Folder Include="ReportSystem\BLL\Entities" />
+      <Folder Include="ReportSystem\UIL" />
+    </ItemGroup>
+
+</Project>
