@@ -5,7 +5,7 @@ namespace lab6.ReportSystem.DAL.Entities
     
     public class User
     {
-        private Guid Id { get; }
+        public Guid Id { get; }
         public string Name { get; }
         public User Parent { get; private set; }
 
