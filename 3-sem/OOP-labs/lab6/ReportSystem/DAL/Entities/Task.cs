@@ -5,7 +5,7 @@ using lab6.ReportSystem.DAL.Interfaces;
 
 namespace lab6.ReportSystem.DAL.Entities
 {
-    public class Task
+    public struct Task
     {
         public Guid Id { get; }
         public string Name { get; }
@@ -24,6 +24,8 @@ namespace lab6.ReportSystem.DAL.Entities
             CreationTime = DateTime.Now;
             UpdateTime = DateTime.Now;
             Assignee = user;
+            Comments = new List<string>();
+            Description = String.Empty;
         }
 
         public void Active()
